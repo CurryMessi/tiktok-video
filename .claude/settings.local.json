@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --turbopack 2>&1)",
+      "Read(//Users/Curry/IdeaProjects/Cursor/**)",
+      "Bash(npx create-next-app@latest tiktok-video-temp --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --turbopack)",
+      "Read(//private/tmp/**)",
+      "Bash(npx create-next-app@latest tiktok-video-init --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --turbopack --no-react-compiler)",
+      "Bash(cp -r /tmp/tiktok-video-init/. /Users/Curry/IdeaProjects/Cursor/tiktok-video/ 2>&1 && ls /Users/Curry/IdeaProjects/Cursor/tiktok-video/)",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest init -d 2>&1)"
+    ]
+  }
+}
