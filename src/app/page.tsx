@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UploadZone } from "@/components/upload-zone";
+import { AnalysisHistory } from "@/components/analysis-history";
 import { Film, Sparkles, Scissors, Copy } from "lucide-react";
 
 export default function Home() {
@@ -45,6 +46,11 @@ export default function Home() {
         {/* 上传区域 */}
         <div className="max-w-2xl mx-auto mb-16">
           <UploadZone onUploadComplete={handleUploadComplete} />
+        </div>
+
+        {/* 分析历史 */}
+        <div className="max-w-2xl mx-auto mb-16">
+          <AnalysisHistory />
         </div>
 
         {/* 功能介绍 */}
