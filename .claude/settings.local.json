@@ -8,7 +8,10 @@
       "Bash(npx create-next-app@latest tiktok-video-init --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --turbopack --no-react-compiler)",
       "Bash(cp -r /tmp/tiktok-video-init/. /Users/Curry/IdeaProjects/Cursor/tiktok-video/ 2>&1 && ls /Users/Curry/IdeaProjects/Cursor/tiktok-video/)",
       "Bash(npm install:*)",
-      "Bash(npx shadcn@latest init -d 2>&1)"
+      "Bash(npx shadcn@latest init -d 2>&1)",
+      "Bash(npx shadcn@latest add card badge progress tabs separator textarea -y 2>&1)",
+      "Bash(npx next:*)",
+      "Bash(ffmpeg -version)"
     ]
   }
 }

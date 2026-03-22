@@ -1,65 +1,89 @@
-import Image from "next/image";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { UploadZone } from "@/components/upload-zone";
+import { Film, Sparkles, Scissors, Copy } from "lucide-react";
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleUploadComplete = async (id: string) => {
+    // 上传完成后触发分析
+    await fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+
+    // 跳转到分析结果页
+    router.push(`/analysis/${id}`);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-zinc-950 text-white">
+      {/* Header */}
+      <div className="border-b border-zinc-800">
+        <div className="mx-auto max-w-5xl px-6 py-4 flex items-center gap-3">
+          <Film className="h-6 w-6 text-pink-500" />
+          <h1 className="text-xl font-bold">TikTok 视频拆解器</h1>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="mx-auto max-w-5xl px-6 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">
+            AI 逆向分析
+            <span className="text-pink-500"> 爆款视频</span>
+          </h2>
+          <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
+            上传 TikTok 视频，AI 帮你逆向提示词、拆解视频片段、
+            分析爆款要素，让你轻松复刻爆款
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* 上传区域 */}
+        <div className="max-w-2xl mx-auto mb-16">
+          <UploadZone onUploadComplete={handleUploadComplete} />
         </div>
-      </main>
+
+        {/* 功能介绍 */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <FeatureCard
+            icon={<Sparkles className="h-6 w-6 text-pink-500" />}
+            title="逆向提示词"
+            description="AI 分析视频内容，逆向推测出可能使用的生成提示词，直接复制即可使用"
+          />
+          <FeatureCard
+            icon={<Scissors className="h-6 w-6 text-blue-500" />}
+            title="片段拆解"
+            description="自动将视频切分为多个片段，逐段分析视觉元素、转场方式和情绪节奏"
+          />
+          <FeatureCard
+            icon={<Copy className="h-6 w-6 text-purple-500" />}
+            title="复刻指南"
+            description="生成详细的复刻步骤，推荐工具和注意事项，帮你快速上手制作同类爆款"
+          />
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+      <div className="mb-3">{icon}</div>
+      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <p className="text-sm text-zinc-400">{description}</p>
     </div>
   );
 }
