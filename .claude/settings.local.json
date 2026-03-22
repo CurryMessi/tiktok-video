@@ -11,7 +11,9 @@
       "Bash(npx shadcn@latest init -d 2>&1)",
       "Bash(npx shadcn@latest add card badge progress tabs separator textarea -y 2>&1)",
       "Bash(npx next:*)",
-      "Bash(ffmpeg -version)"
+      "Bash(ffmpeg -version)",
+      "Bash(npm run:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }
