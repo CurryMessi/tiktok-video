@@ -35,7 +35,10 @@ export async function POST(request: NextRequest) {
     }
 
     const id = uuidv4();
-    const ext = path.extname(file.name) || ".mp4";
+    // 只允许安全的扩展名
+    const allowedExts = [".mp4", ".webm", ".mov", ".avi"];
+    let ext = path.extname(file.name).toLowerCase();
+    if (!allowedExts.includes(ext)) ext = ".mp4";
     const fileName = `${id}${ext}`;
     const filePath = path.join(UPLOADS_DIR, fileName);
 
@@ -44,9 +47,29 @@ export async function POST(request: NextRequest) {
       fs.mkdirSync(UPLOADS_DIR, { recursive: true });
     }
 
-    // 保存文件
-    const bytes = await file.arrayBuffer();
-    fs.writeFileSync(filePath, Buffer.from(bytes));
+    // 流式写入文件，避免大文件一次性占满内存
+    const writeStream = fs.createWriteStream(filePath);
+    const reader = file.stream().getReader();
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        writeStream.write(value);
+      }
+      writeStream.end();
+
+      // 等待写入完成
+      await new Promise<void>((resolve, reject) => {
+        writeStream.on("finish", resolve);
+        writeStream.on("error", reject);
+      });
+    } catch (writeErr) {
+      // 写入失败时清理残留文件
+      writeStream.end();
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      throw writeErr;
+    }
 
     // 创建分析记录
     const analysis: VideoAnalysis = {
@@ -66,6 +89,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ id, message: "上传成功" });
   } catch (error) {
     console.error("Upload error:", error);
-    return NextResponse.json({ error: "上传失败" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "上传失败";
+    return NextResponse.json({ error: `上传失败: ${message}` }, { status: 500 });
   }
 }

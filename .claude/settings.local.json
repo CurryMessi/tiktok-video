@@ -13,7 +13,8 @@
       "Bash(npx next:*)",
       "Bash(ffmpeg -version)",
       "Bash(npm run:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(find /Users/Curry/IdeaProjects/Cursor/tiktok-video -name .env* -type f)"
     ]
   }
 }

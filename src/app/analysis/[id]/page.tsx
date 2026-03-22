@@ -22,8 +22,19 @@ export default function AnalysisPage({
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
+    let pollCount = 0;
+    const MAX_POLLS = 150; // 最多轮询 150 次（2s * 150 = 5 分钟）
 
     const fetchAnalysis = async () => {
+      pollCount++;
+
+      // 超过最大轮询次数，停止并提示
+      if (pollCount > MAX_POLLS) {
+        clearInterval(intervalId);
+        setError("分析超时，请返回首页重试");
+        return;
+      }
+
       try {
         const res = await fetch(`/api/analysis/${id}`);
         if (!res.ok) {
