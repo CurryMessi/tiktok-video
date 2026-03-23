@@ -14,7 +14,12 @@
       "Bash(ffmpeg -version)",
       "Bash(npm run:*)",
       "Bash(git checkout:*)",
-      "Bash(find /Users/Curry/IdeaProjects/Cursor/tiktok-video -name .env* -type f)"
+      "Bash(find /Users/Curry/IdeaProjects/Cursor/tiktok-video -name .env* -type f)",
+      "Bash(git push:*)",
+      "Bash(brew list:*)",
+      "Bash(ls ~/Library/Fonts/*eslo*)",
+      "Bash(ls ~/Library/Fonts/*Nerd*)",
+      "Bash(brew install:*)"
     ]
   }
 }
